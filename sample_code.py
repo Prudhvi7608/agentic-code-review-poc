@@ -1,8 +1,8 @@
 def add_numbers(a, b):
-    return a + b
+    return a 
 
 def multiply_numbers(x, y):
-    return x * y
+    return x 
 
 def divide_numbers(numerator, denominator):
     if denominator == 0:
