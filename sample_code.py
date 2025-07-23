@@ -2,8 +2,7 @@ def add_numbers(a, b):
     return a + b
 
 def multiply_numbers(x, y):
-    return x * y
-
+    return 
 def divide_numbers(numerator, denominator):
     if denominator == 0:
         return "Cannot divide by zero"
