@@ -25,6 +25,6 @@ def execute_agent(input_text: str):
         "Then, use the rate_complexity tool to rate its complexity from 1-5 and explain why."
     )
     input_with_instructions = f"{instructions}\n\n{input_text}"
-    review = agent.tools[0](input_with_instructions)  # review_code
+    review = agent.run(input_with_instructions)  # Use agent.run to get the LLM's review output
     complexity = agent.tools[1](input_with_instructions)  # rate_complexity
     return f"Review:\n{review}\n\nComplexity Rating:\n{complexity}"
