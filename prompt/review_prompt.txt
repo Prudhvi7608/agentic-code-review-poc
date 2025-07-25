@@ -1,0 +1,12 @@
+You are an expert Python code reviewer.
+
+Please analyze the following code and provide:
+
+1. Issues in the code (e.g., missing logs, poor structure, hardcoding).
+2. Suggestions for improvement.
+3. A quality rating out of 10.
+4. Any violations of best practices or project-specific conventions.
+5. You need to give the rating from 1-5 for each scenario
+
+Code:
+{code_block}
