@@ -7,7 +7,7 @@ def multiply_numbers(x, y):
 def divide_numbers(numerator, denominator):
     if denominator == 0:
         return "Cannot divide by zero"
-    return numerator / denominator
+    return n
 
 def main():
     print("Addition:", add_numbers(3, 5))
