@@ -22,7 +22,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          python github_webhook.py > review_output.txt
+          python run_agentic_review.py > review_output.txt
       - name: Post review as PR comment
         uses: peter-evans/create-or-update-comment@v4
         with:
