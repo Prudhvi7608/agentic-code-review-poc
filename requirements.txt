@@ -1,3 +1,4 @@
 langchain
 openai
 requests
+langchain_openai
