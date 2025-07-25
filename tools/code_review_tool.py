@@ -10,15 +10,10 @@ Please review this code:
 {code}
 
 Your tasks:
-- Identify and explain any bugs, issues, or missing elements in the code.
-- Suggest improvements and best practices.
-- Check for:
-  - Logging
-  - Structure
-  - Error handling
-  - Best practices
-  - Code readability
-  - Security issues
-  - Performance issues
+1. Identify and explain any bugs, issues, or missing elements in the code.
+2. For each issue, provide a suggestion and then show the corrected code in a Python code block immediately after your suggestion.
+3. Check for: Logging, structure, error handling, best practices, code readability, security issues, and performance issues.
+4. At the end of your review, output the entire corrected file in a single Python code block.
+5. Provide actionable suggestions for each problem found.
 - Provide actionable suggestions for each problem found.
 """
