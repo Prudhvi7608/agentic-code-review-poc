@@ -5,9 +5,11 @@ __pycache__/
 *.pyd
 *.pyc
 
+
 # Environment
 .env
 .env.*
+secrets.toml
 
 # VSCode
 .vscode/
