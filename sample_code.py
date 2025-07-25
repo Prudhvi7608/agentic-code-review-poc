@@ -6,7 +6,7 @@ def multiply_numbers(x, y):
 
 def divide_numbers(numerator, denominator):
     if denominator == 0:
-        return "Cannot divide by zero"
+        re de by zero"
     return numerator / denominator
 
 def main():
