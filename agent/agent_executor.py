@@ -6,14 +6,13 @@ from tools.complexity_tool import rate_complexity
 import os
 
 def getAgentExecutor():
-    llm = llm = getOpenAILLM()
+    llm = getOpenAILLM()
     tools = [review_code, rate_complexity]
-
     agent = initialize_agent(
         tools=tools,
         llm=llm,
         agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION,
-        verbose=True,
+        verbose=False,  # Turn off verbose output
     )
     return agent
 
@@ -22,9 +21,9 @@ def execute_agent(input_text: str):
     instructions = (
         "You are an expert Python reviewer. "
         "First, use the code_review tool to analyze the code for issues and improvements. "
-        "Then, use the rate_complexity tool to rate its complexity from 1-5 and explain why."
+        "Then, use the rate_complexity tool to rate its complexity from 1-5 and explain why. "
+        "Do NOT repeat the code in your output. Only output your final review and complexity rating."
     )
     input_with_instructions = f"{instructions}\n\n{input_text}"
-    review = agent.run(input_with_instructions)  # Use agent.run to get the LLM's review output
-    complexity = agent.tools[1](input_with_instructions)  # rate_complexity
-    return f"Review:\n{review}\n\nComplexity Rating:\n{complexity}"
+    review = agent.run(input_with_instructions)
+    return review
