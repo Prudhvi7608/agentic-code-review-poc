@@ -21,6 +21,7 @@ jobs:
       - name: Run agentic code review
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: |
           python run_agentic_review.py > review_output.txt
       - name: Post review as PR comment
