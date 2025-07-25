@@ -29,6 +29,9 @@ def main():
         except Exception as e:
             review_input += f"File: {file}\nError reading file: {e}\n\n"
     result = execute_agent(review_input)
+    heading = "## :robot: Agent Review\n\n"
+    if not result.strip().startswith("## :robot: Agent Review"):
+        result = heading + result
     print(result)
 
 if __name__ == "__main__":
