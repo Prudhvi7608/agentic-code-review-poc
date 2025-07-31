@@ -21,7 +21,7 @@ jobs:
       - name: Run agentic code review
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          # OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           # Ensure that OPENAI_API_KEY is set in your repository's secrets at https://github.com/<owner>/<repo>/settings/secrets/actions
         run: |
           python run_agentic_review.py > review_output.txt

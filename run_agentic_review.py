@@ -4,7 +4,7 @@ This script reviews all Python files in the repo using the LLM directly (no agen
 It sends the code to the LLM and prints the result.
 """
 import os
-from utils.gemini_llm import get_llm_from_config
+from utils.gemini_llm import getOpenAILLM
 
 def get_files_to_review():
     # Review all .py files in the repo (customize as needed)
@@ -28,7 +28,7 @@ def main():
             review_input += f"File: {file}\n{content}\n\n"
         except Exception as e:
             review_input += f"File: {file}\nError reading file: {e}\n\n"
-    llm = get_llm_from_config()
+    llm = getOpenAILLM()
     result = ""
     try:
         for chunk in llm.stream(input=review_input):  # Directly send review_input
