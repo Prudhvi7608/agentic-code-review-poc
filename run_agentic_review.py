@@ -5,9 +5,9 @@ import subprocess
 import os
 
 def get_files_to_review():
+    import subprocess
     files = []
     try:
-        # Get only staged and changed Python files (for current PR/commit diff)
         result = subprocess.run(
             ["git", "diff", "--name-only", "--diff-filter=ACM", "HEAD"],
             capture_output=True, text=True, check=True
@@ -17,11 +17,12 @@ def get_files_to_review():
         for file in changed_files:
             if file.endswith('.py') and not file.startswith('.') and '__pycache__' not in file and os.path.exists(file):
                 files.append(file)
-
     except subprocess.CalledProcessError as e:
         print("Error getting modified files:", e)
-
     return files
+
+
+    
 
 
 def load_prompt_template():
@@ -34,6 +35,7 @@ def load_prompt_template():
 
 def main():
     files = get_files_to_review()
+    print("🛠️ Files being reviewed:", files) 
     prompt_template = load_prompt_template()
     if not prompt_template:
         print("Prompt template not found or empty. Exiting.")
