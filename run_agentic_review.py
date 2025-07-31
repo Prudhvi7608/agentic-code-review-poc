@@ -1,13 +1,13 @@
 # run_agentic_review.py
 """
-This script runs the agentic code review logic directly (no Flask server).
-It should be used in CI/CD pipelines to review the codebase and print the result.
+This script reviews all Python files in the repo using the LLM directly (no agent).
+It sends the code to the LLM and prints the result.
 """
 import os
-from agent.agent_executor import execute_agent
+from utils.gemini_llm import get_llm_from_config
 
 def get_files_to_review():
-    # For demo: review all .py files in the repo (customize as needed)
+    # Review all .py files in the repo (customize as needed)
     files = []
     for root, dirs, filenames in os.walk('.'):
         for filename in filenames:
@@ -20,7 +20,7 @@ def get_files_to_review():
 
 def main():
     files = get_files_to_review()
-    review_input = ''
+    review_input = "You are an AI code reviewer. Please review the following Python files and provide feedback:\n\n"
     for file in files:
         try:
             with open(file, 'r', encoding='utf-8', errors='ignore') as f:
@@ -28,9 +28,16 @@ def main():
             review_input += f"File: {file}\n{content}\n\n"
         except Exception as e:
             review_input += f"File: {file}\nError reading file: {e}\n\n"
-    result = execute_agent(review_input)
-    heading = "## :robot: Agent Review\n\n"
-    if not result.strip().startswith("## :robot: Agent Review"):
+    llm = get_llm_from_config()
+    result = ""
+    try:
+        for chunk in llm.stream(input=review_input):  # Directly send review_input
+            result += chunk.content
+    except Exception as e:
+        print(f"Error during LLM call: {e}")
+        return
+    heading = "## :robot: LLM Review\n\n"
+    if not result.strip().startswith("## :robot: LLM Review"):
         result = heading + result
     print(result)
 
