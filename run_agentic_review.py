@@ -4,22 +4,52 @@ from utils.gemini_llm import getOpenAILLM
 import subprocess
 import os
 
-def get_files_to_review():
-    import subprocess
-    files = []
-    try:
-        result = subprocess.run(
-            ["git", "diff", "--name-only", "--diff-filter=ACM", "HEAD"],
-            capture_output=True, text=True, check=True
-        )
-        changed_files = result.stdout.strip().split('\n')
+import os
+import json
+import requests
 
-        for file in changed_files:
-            if file.endswith('.py') and not file.startswith('.') and '__pycache__' not in file and os.path.exists(file):
-                files.append(file)
-    except subprocess.CalledProcessError as e:
-        print("Error getting modified files:", e)
-    return files
+def get_files_to_review():
+    """
+    Returns a list of modified .py files in the current pull request,
+    using the GitHub API and the GITHUB_EVENT_PATH payload.
+    """
+    # Load the incoming event payload
+    event_path = os.environ.get("GITHUB_EVENT_PATH")
+    if not event_path or not os.path.exists(event_path):
+        print("⚠️  GITHUB_EVENT_PATH not set or file missing.")
+        return []
+
+    payload = json.load(open(event_path))
+    pr = payload.get("pull_request")
+    if not pr:
+        print("⚠️  Not a pull_request event.")
+        return []
+
+    pr_number = pr["number"]
+    repo       = os.environ["GITHUB_REPOSITORY"]  # e.g. "org/repo"
+    token      = os.environ["GITHUB_TOKEN"]
+
+    # GitHub API: list files changed in this PR
+    url     = f"https://api.github.com/repos/{repo}/pulls/{pr_number}/files"
+    headers = {"Authorization": f"Bearer {token}", "Accept": "application/vnd.github.v3+json"}
+
+    changed_py = []
+    page = 1
+    while True:
+        resp = requests.get(url, headers=headers, params={"page": page, "per_page": 100})
+        if not resp.ok:
+            print(f"❌ GitHub API error: {resp.status_code} {resp.text}")
+            break
+        files = resp.json()
+        if not files:
+            break
+        for f in files:
+            name = f.get("filename","")
+            if name.endswith(".py"):
+                changed_py.append(name)
+        page += 1
+
+    return changed_py
 
 
     
